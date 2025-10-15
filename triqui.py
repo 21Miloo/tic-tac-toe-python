@@ -2,40 +2,38 @@ import random
 
 
 def printIntro(introFile):
-    '''
-        Firma:
-            (string) -> ()
+    """
+    Firma:
+        (string) -> ()
 
-        Sinopsis:
-            función que imprime el contenido de un archivo en pantalla, en este
-    		caso, el mensaje de bienvenida al juego
+    Sinopsis:
+        función que imprime el contenido de un archivo en pantalla, en este
+            caso, el mensaje de bienvenida al juego
 
-        Entradas y salidas:
-            - inputFile: Nombre del archivo que contiene la presentación del juego
-            - returns: None, solo imprime el archivo leído en pantalla
+    Entradas y salidas:
+        - inputFile: Nombre del archivo que contiene la presentación del juego
+        - returns: None, solo imprime el archivo leído en pantalla
 
-        Ejemplos de uso:
+    Ejemplos de uso:
 
-            >>> printIntro("intro.txt")
+        >>> printIntro("intro.txt")
 
-            ████████╗██████╗ ██╗ ██████╗ ██╗   ██╗██╗
-            ╚══██╔══╝██╔══██╗██║██╔═══██╗██║   ██║██║
-               ██║   ██████╔╝██║██║   ██║██║   ██║██║
-               ██║   ██╔══██╗██║██║▄▄ ██║██║   ██║██║
-               ██║   ██║  ██║██║╚██████╔╝╚██████╔╝██║
-               ╚═╝   ╚═╝  ╚═╝╚═╝ ╚══▀▀═╝  ╚═════╝ ╚═╝
-        '''
+        ████████╗██████╗ ██╗ ██████╗ ██╗   ██╗██╗
+        ╚══██╔══╝██╔══██╗██║██╔═══██╗██║   ██║██║
+           ██║   ██████╔╝██║██║   ██║██║   ██║██║
+           ██║   ██╔══██╗██║██║▄▄ ██║██║   ██║██║
+           ██║   ██║  ██║██║╚██████╔╝╚██████╔╝██║
+           ╚═╝   ╚═╝  ╚═╝╚═╝ ╚══▀▀═╝  ╚═════╝ ╚═╝
+    """
 
     # Desarrolle el cuerpo de la función aquí...
 
-    with open(introFile, 'r', encoding='utf-8') as file:  # Abre el archivo en modo lectura. (With cierra el archivo automáticamente)
-        read_data = file.read() # Lee todo el contenido del archivo.
-        print(read_data) # Imprime el contenido.
+    with open(
+        introFile, "r", encoding="utf-8"
+    ) as file:  # Abre el archivo en modo lectura. (With cierra el archivo automáticamente)
+        read_data = file.read()  # Lee todo el contenido del archivo.
+        print(read_data)  # Imprime el contenido.
 
-
-
-
-    pass
 
 def drawBoard(board):
     # Esta función imprime el tablero en la consola
@@ -43,8 +41,16 @@ def drawBoard(board):
     # Board: Lista de strings que representa el estado del tablero
 
     # Desarrolle el cuerpo de la función aquí...
-    pass
 
+    print("\n")
+    print(" " + board[0] + " | " + board[1] + " | " + board[2])
+    print("---+---+---")
+    print(" " + board[3] + " | " + board[4] + " | " + board[5])
+    print("---+---+---")
+    print(" " + board[6] + " | " + board[7] + " | " + board[8])
+    print("\n")
+
+    pass
 
 
 def inputPlayerLetter():
@@ -59,14 +65,13 @@ def inputPlayerLetter():
     while True:
         letter = input("Escoja su letra (X/O): ").upper()
 
-        if letter == 'X':
-            return 'XO'
-        elif letter == 'O':
-            return 'OX'
-        else: 
+        if letter == "X":
+            return "XO"
+        elif letter == "O":
+            return "OX"
+        else:
             print("Entrada inválida. Por favor, ingrese 'X' o 'O'.")
 
-    pass
 
 def whoGoesFirst():
     # Esta función escoge de forma aleatoria quien inicial el juego.
@@ -75,7 +80,14 @@ def whoGoesFirst():
     # el string "Computadora" si la computadora inicia el juego.
 
     # Desarrolle el cuerpo de la función aquí...
-    pass
+
+    numRandom = int(random() * 10)
+
+    if numRandom < 5:
+        return "Usuario"
+    else:
+        return "Computadora"
+
 
 def makeMove(board, letter, move):
     # Esta función actualiza el estado del tablero.
@@ -86,7 +98,15 @@ def makeMove(board, letter, move):
     # move: Es el número de la casilla donde se desea poner la marca.
 
     # Desarrolle el cuerpo de la función aquí...
-    pass
+
+    newBoard = board[:move] + letter + board[move + 1 :]  #  Slicing
+
+    """
+    SLicing (Vamos de 0 hasta la posicion del string 'Sin tomarlo' y concatenamos LETTER mas el resto de la cadena)
+    """
+
+    return newBoard
+
 
 def isWinner(board, letter):
     # Esta función debe verificar si hay una jugada ganadora en el tablero.
@@ -99,7 +119,22 @@ def isWinner(board, letter):
     # debe retornar el valor lógico False, si no hay una jugada ganadora.
 
     # Desarrolle el cuerpo de la función aquí...
-    pass
+
+    # Filas
+    if (
+        (board[0] == letter and board[1] == letter and board[2] == letter)
+        or (board[3] == letter and board[4] == letter and board[5] == letter)
+        or (board[6] == letter and board[7] == letter and board[8] == letter)
+        or (board[0] == letter and board[3] == letter and board[6] == letter)
+        or (board[1] == letter and board[4] == letter and board[7] == letter)
+        or (board[2] == letter and board[5] == letter and board[8] == letter)
+        or (board[0] == letter and board[4] == letter and board[8] == letter)
+        or (board[2] == letter and board[4] == letter and board[6] == letter)
+    ):
+        return True
+    else:
+        return False
+
 
 def isSpaceFree(board, move):
     # Esta función verifica si hay una casilla vacía en el tablero.
@@ -112,7 +147,17 @@ def isSpaceFree(board, move):
     # en caso contrario, debe retornar el valor lógico False.
 
     # Desarrolle el cuerpo de la función aquí...
-    pass
+
+    isEmpty = False
+
+    if board[move] == " " and isEmpty == False:
+        isEmpty = True
+        print("Espacio vacio")
+        return isEmpty
+    else:
+        print("No se encontro")
+        return isEmpty
+
 
 def getPlayerMove(board):
     # Esta función le pide al usuario que ingrese el número de la casilla
@@ -123,9 +168,22 @@ def getPlayerMove(board):
 
     # Esta función retorna el número de la casilla seleccionada por el usuario.
 
-
     # Desarrolle el cuerpo de la función aquí...
-    pass
+
+    while True:
+        try:
+            playerMove = int(input("Ingrese numero de casilla: "))
+
+            if playerMove >= 0 and playerMove <= 8 and isSpaceFree(board, playerMove):
+                print("Espacio disponible")
+                return playerMove
+
+            else:
+                print("Seleccione una opcion valida")
+
+        except ValueError:
+            print("Por favor, ingrese un número válido.")
+
 
 def chooseRandomMoveFromList(board, movesList):
     # Esta función escoge de forma aleatoria una casilla vacía del tablero.
@@ -139,7 +197,9 @@ def chooseRandomMoveFromList(board, movesList):
     # esta función debe retornar el valor None.
 
     # Desarrolle el cuerpo de la función aquí...
+
     pass
+
 
 def getComputerMove(board, computerLetter):
     # Esta función implementa la estrategia de juego de la computadora.
@@ -162,6 +222,7 @@ def getComputerMove(board, computerLetter):
 
     pass
 
+
 def isBoardFull(board):
     # Esta función verifica si el tablero está lleno.
 
@@ -172,4 +233,10 @@ def isBoardFull(board):
     # En caso contrario debe retornar el valor lógico False.
 
     # Desarrolle el cuerpo de la función aquí...
-    pass
+    
+    
+
+    for i in board:
+        if i == " ":
+            return False
+    return True

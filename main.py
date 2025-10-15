@@ -1,5 +1,6 @@
 import triqui as tr
 
+
 # 1. Mostrar mensaje de bienvenida
 
 tr.printIntro("intro.txt")
@@ -8,7 +9,9 @@ turn ="" # Indica quién tiene el turno para jugar, el usuario o la computadora.
 while True:
 
     # 2. Crear el tablero
+    board = '        '
     # 3. El usuario debe seleccionar la marca
+    
     # 4. Quién va primero el usuario o la computadora?
 
     print(turn + ' va primero.')
