@@ -1,4 +1,5 @@
 import random
+from datetime import datetime
 
 
 def printIntro(introFile):
@@ -81,7 +82,7 @@ def whoGoesFirst():
 
     # Desarrolle el cuerpo de la función aquí...
 
-    numRandom = int(random() * 10)
+    numRandom = int(random.random() * 10)
 
     if numRandom < 5:
         return "Usuario"
@@ -152,10 +153,8 @@ def isSpaceFree(board, move):
 
     if board[move] == " " and isEmpty == False:
         isEmpty = True
-        print("Espacio vacio")
         return isEmpty
     else:
-        print("No se encontro")
         return isEmpty
 
 
@@ -198,7 +197,19 @@ def chooseRandomMoveFromList(board, movesList):
 
     # Desarrolle el cuerpo de la función aquí...
 
-    pass
+    numPosibles = ""
+
+    for move in movesList:  # recorremos casa caracter del string
+        move = int(move)  # convertimos el caracter a numero
+        if isSpaceFree(board, move):
+            numPosibles = numPosibles + str(move)
+
+    if numPosibles == "":
+        return None
+
+    return int(
+        random.choice(numPosibles)
+    )  # random.choice escoge un caracter aleatorio del string
 
 
 def getComputerMove(board, computerLetter):
@@ -208,19 +219,50 @@ def getComputerMove(board, computerLetter):
     # board: Lista de strings que almacena el estado del tablero.
     # computerLetter: La marca que está usando la computadora.
 
+    # Determinamos la letra del jugador para usarla en el 2do paso del algoritmo
+    if computerLetter == "X":
+        playerLetter = "O"
+    else:
+        playerLetter = "X"
+
     # Desarrolle el cuerpo de la función aquí...
 
     # 1. Verificar si la computadora puede ganar...
 
+    for i in range(9):  # Recorremos todas las posiciones del tablero
+        if isSpaceFree(board, i):  # Verificamos si el espacio está libre
+            copy = makeMove(
+                board, computerLetter, i
+            )  # Hacemos una copia del tablero con el movimiento de la computadora
+            if isWinner(
+                copy, computerLetter
+            ):  # Verificamos si la computadora gana con ese movimiento
+                return i  # Si gana, retornamos esa posición
+
     # 2. Si no, verificar si el usuario puede ganar en la siguiente jugada, si si, bloquear esta jugada...
+
+    for i in range(9):  #
+        if isSpaceFree(board, i):
+            copy = makeMove(board, playerLetter, i)
+            if isWinner(copy, playerLetter):
+                return i
 
     # 3. Si no, tratar de poner una marca en alguna de las esquinas, si alguna está vacía...
 
+    move = chooseRandomMoveFromList(board, "0246")  # Esquinas del tablero
+    if move != None:
+        return move
+
     # 4. Si no, tratar de marcar la casilla del centro, si esta está vacía...
+
+    if isSpaceFree(board, 4):
+        return 4
 
     # 5. Si no, tratar de poner una marca en alguna de las casillas de los lados...
 
-    pass
+    move = chooseRandomMoveFromList(board, "1357")
+    if move != None:
+        return move
 
 
 def isBoardFull(board):
@@ -233,10 +275,37 @@ def isBoardFull(board):
     # En caso contrario debe retornar el valor lógico False.
 
     # Desarrolle el cuerpo de la función aquí...
-    
-    
 
-    for i in board:
-        if i == " ":
-            return False
-    return True
+    for i in range(9):
+        if isSpaceFree(
+            board, i
+        ):  # Usamos la funcion isSpaceFree para verificar si hay espacios libres, si hay espacios libres el tablero no está lleno 
+            return False  # Si hay un espacio libre retorna False
+    return True  # Si no hay espacios libres después de revisar todas las posiciones, el tablero está lleno
+
+
+# Bonus: Estadisticas de partidas
+def statsGames(wins, losses, ties, name):
+    
+    fecha = datetime.now().strftime("%A %d de %B")  # Usamos strftime() para mostrarla en el formato que queramos
+
+    # Guardamos las estadisticas en un archivo de texto
+    with open("stats.txt", "w", encoding="utf-8") as file:
+        file.write(f"Nombre del jugador: {name}\n")
+        file.write(f"Victorias: {wins}\n")
+        file.write(f"Derrotas: {losses}\n")
+        file.write(f"Empates: {ties}\n")
+        file.write(f"Última partida: {fecha}\n")
+
+    # Imprimimos las estadisticas en pantalla
+    print("----------------TRIQUI----------------")
+    print(fecha)
+    print(f"Nombre del jugador: {name}")
+    print(" ")
+    print(f"Juegos ganados por el usuario: {wins}")
+    print(f"Juegos ganados por el computador: {losses}")
+    print(f"Juegos empatados: {ties}")
+    print(" ")
+    print("--------------------------------------") 
+
+

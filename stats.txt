@@ -1,0 +1,5 @@
+Nombre del jugador: camilo
+Victorias: 0
+Derrotas: 1
+Empates: 0
+Última partida: Wednesday 15 de October
