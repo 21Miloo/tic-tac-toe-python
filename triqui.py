@@ -4,6 +4,9 @@
 # Estudiante:
 # Juan Camilo Lopez Castrillon 
 
+#Repositorio:
+# https://github.com/21Miloo/tic-tac-toe-python.git
+
 # Grupo 8
 
 import random
