@@ -1,3 +1,11 @@
+# Universidad de Antioquia
+# Facultad de Ingeniería
+
+# Estudiante:
+# Juan Camilo Lopez Castrillon 
+
+# Grupo 8
+
 import random
 from datetime import datetime
 
